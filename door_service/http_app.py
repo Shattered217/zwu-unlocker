@@ -121,8 +121,8 @@ class DoorControlHandler(BaseHTTPRequestHandler):
         health = latest.get("health", {}) if isinstance(latest, dict) else {}
         doors = health.get("doors", []) if isinstance(health, dict) else []
         routes = self.app.config.routes
-        key_query = f"?key={self.app.config.access_key}" if self.app.config.access_key else ""
         first_door = doors[0] if doors else {}
+        open_api_display_url = f"{self.app.config.public_base}{routes.open_api_path}?key=****"
         return f"""<!doctype html>
 <html>
 <head>
@@ -148,14 +148,9 @@ class DoorControlHandler(BaseHTTPRequestHandler):
   </div>
   <div class=\"card\">
     <p><strong>Status URL:</strong> <code>{self.app.config.public_base}{routes.status_path}</code></p>
-    <p><strong>Open API:</strong> <code>{self.app.config.public_base}{routes.open_api_path}{key_query}</code></p>
+    <p><strong>Open API:</strong> <code>{open_api_display_url}</code></p>
     <p><strong>Refresh Page:</strong> <code>{self.app.config.public_base}{routes.refresh_path}</code></p>
-    <form action=\"{routes.open_api_path}{key_query}\" method=\"post\">
-      <button type=\"submit\">远程开门</button>
-    </form>
-    <form action=\"{routes.refresh_start_path}{key_query}\" method=\"get\">
-      <button type=\"submit\">刷新 Token（打开微信授权）</button>
-    </form>
+    <p><a href=\"{self.app.auth_url}\">刷新 Token（打开微信授权）</a></p>
   </div>
   <div class=\"card\">
     <p>也可以把下面授权链接发到微信里手动打开：</p>
@@ -165,14 +160,14 @@ class DoorControlHandler(BaseHTTPRequestHandler):
 </html>"""
 
     def _render_refresh_page(self) -> str:
-        key_query = f"?key={self.app.config.access_key}" if self.app.config.access_key else ""
+        dashboard_url = self.app.config.routes.dashboard_path
         return f"""<!doctype html>
 <html><head><meta charset=\"utf-8\"><title>Refresh Token</title></head>
 <body>
   <h1>Refresh Token</h1>
   <p>在微信里点击下面按钮，完成授权后会自动回到本服务并更新 token。</p>
-  <p><a href=\"{self.app.config.routes.refresh_start_path}{key_query}\">打开微信授权链接</a></p>
-  <p><a href=\"{self.app.config.routes.dashboard_path}\">返回首页</a></p>
+  <p><a href=\"{self.app.auth_url}\">打开微信授权链接</a></p>
+  <p><a href=\"{dashboard_url}\">返回首页</a></p>
 </body></html>"""
 
     def _render_callback_page(self, latest: dict) -> str:
@@ -180,6 +175,7 @@ class DoorControlHandler(BaseHTTPRequestHandler):
         code = latest.get("code") or ""
         error = latest.get("error") or ""
         exchange_ok = latest.get("exchange_ok")
+        dashboard_url = self.app.config.routes.dashboard_path
         return f"""<!doctype html>
 <html>
 <head><meta charset=\"utf-8\"><title>Callback Received</title></head>
@@ -189,7 +185,7 @@ class DoorControlHandler(BaseHTTPRequestHandler):
   <p><strong>token:</strong> <code>{token}</code></p>
   <p><strong>exchange_ok:</strong> <code>{exchange_ok}</code></p>
   <p><strong>error:</strong> <code>{error}</code></p>
-  <p><a href=\"{self.app.config.routes.dashboard_path}\">回到首页</a></p>
+  <p><a href=\"{dashboard_url}\">回到首页</a></p>
 </body>
 </html>"""
 

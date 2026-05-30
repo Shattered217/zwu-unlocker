@@ -123,7 +123,7 @@ uv run callback_collector.py
 - 开门 API 路径
 - 授权链接
 
-## 怎么用
+## 使用方法
 
 ### 1. 刷新 token
 
