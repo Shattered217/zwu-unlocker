@@ -135,6 +135,11 @@ def load_config(config_file: Path) -> ServiceConfig:
         bot_token=config_str(telegram_raw.get("bot_token")),
         chat_id=config_str(telegram_raw.get("chat_id")),
     )
+    access_key = config_str(raw.get("access_key"), "")
+    if not access_key:
+        raise ValueError("config access_key is required")
+    if access_key in {"change-me", "replace-with-a-random-secret"}:
+        raise ValueError("config access_key must be changed from the example placeholder")
 
     return ServiceConfig(
         host=host,
@@ -143,7 +148,7 @@ def load_config(config_file: Path) -> ServiceConfig:
         callback_url=build_callback_url(public_base, raw.get("callback_url"), callback_path),
         state_file=Path(raw.get("state_file", DEFAULT_STATE_FILE)),
         exchange_token=config_bool(raw.get("exchange_token"), True),
-        access_key=raw.get("access_key"),
+        access_key=access_key,
         default_door_code=raw.get("default_door_code"),
         health_interval=config_int(raw.get("health_interval"), DEFAULT_HEALTH_INTERVAL),
         telegram=telegram,

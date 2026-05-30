@@ -5,7 +5,7 @@
   "callback_url": "https://door.example.com/wechat/callback",
   "state_file": "callback_state.json",
   "exchange_token": true,
-  "access_key": "replace-with-a-random-secret",
+  "access_key": "set-a-long-random-secret-here",
   "default_door_code": "01000016000200000020",
   "health_interval": 300,
   "routes": {

@@ -70,7 +70,7 @@ cp config.example.json config.json
 
 - `public_base`: 你实际对外访问的基础地址
 - `callback_url`: 微信回调地址；如果你走反向代理，建议明确配置
-- `access_key`: 开门 API 鉴权密钥
+- `access_key`: 开门 API 鉴权密钥，**必填**
 - `routes.base_path`: 随机路径前缀
 - `telegram.bot_token` / `telegram.chat_id`: 可选，用于 token 失效提醒
 
@@ -140,7 +140,7 @@ uv run callback_collector.py
 访问：
 
 ```text
-http://127.0.0.1:8765/door-control-panel-change-me/status
+http://127.0.0.1:8765/door-control-panel-change-me/status?key=YOUR_ACCESS_KEY
 ```
 
 可以看到当前 token、过期时间、用户信息、门锁信息和最近一次开门结果。

@@ -23,6 +23,7 @@ class DoorControlHandler(BaseHTTPRequestHandler):
         routes = self.app.config.routes
 
         if parsed.path == routes.status_path:
+            self._require_access_or_raise(parsed)
             self._send_json(self.app.snapshot())
             return
 
