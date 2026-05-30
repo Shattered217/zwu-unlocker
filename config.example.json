@@ -1,0 +1,19 @@
+{
+  "host": "0.0.0.0",
+  "port": 8765,
+  "public_base": "https://door.example.com",
+  "callback_url": "https://door.example.com/wechat/callback",
+  "state_file": "callback_state.json",
+  "exchange_token": true,
+  "access_key": "replace-with-a-random-secret",
+  "default_door_code": "01000016000200000020",
+  "health_interval": 300,
+  "routes": {
+    "base_path": "/replace-with-a-long-random-path",
+    "callback_path": "/wechat/callback"
+  },
+  "telegram": {
+    "bot_token": "",
+    "chat_id": ""
+  }
+}
