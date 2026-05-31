@@ -5,7 +5,6 @@
   "compatibility_date": "2025-05-31",
   "vars": {
     "AES_KEY": "abcdef0123456789",
-    "AES_IV": "abcdef0123456789",
-    "WORKER_KEY": "set-a-long-random-worker-key"
+    "AES_IV": "abcdef0123456789"
   }
 }
