@@ -113,6 +113,31 @@ python callback_collector.py
 uv run callback_collector.py
 ```
 
+### systemd
+
+如果部署在 Linux 主机上，可以使用仓库里的示例服务文件：
+
+```bash
+sudo cp deploy/zwu-unlocker.service /etc/systemd/system/zwu-unlocker.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now zwu-unlocker
+```
+
+示例服务默认使用：
+
+```text
+User=ros
+WorkingDirectory=/home/ros/zwu-unlocker
+ExecStart=/usr/bin/env uv run callback_collector.py
+```
+
+查看状态和日志：
+
+```bash
+systemctl status zwu-unlocker
+journalctl -u zwu-unlocker -f
+```
+
 启动后终端会打印：
 
 - `public_base`

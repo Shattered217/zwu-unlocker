@@ -1,0 +1,16 @@
+[Unit]
+Description=ZWU unlocker callback service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ros
+Group=ros
+WorkingDirectory=/home/ros/zwu-unlocker
+ExecStart=/usr/bin/env uv run callback_collector.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
